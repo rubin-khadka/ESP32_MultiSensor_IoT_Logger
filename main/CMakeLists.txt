@@ -2,6 +2,10 @@
 # for more information about component CMakeLists.txt files.
 
 idf_component_register(
-    SRCS main.c   
-    INCLUDE_DIRS "."   
+    SRCS 
+    	"main.c"
+    	"src/dht11.c"   
+    INCLUDE_DIRS 
+    	"."
+    	"inc"   
 )
