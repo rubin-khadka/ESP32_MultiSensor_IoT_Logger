@@ -5,7 +5,6 @@
 #include "freertos/task.h"
 #include "esp_log.h"
 #include "dht11.h"
-#include "soc/gpio_num.h"
 
 static const char *TAG = "MAIN";
 

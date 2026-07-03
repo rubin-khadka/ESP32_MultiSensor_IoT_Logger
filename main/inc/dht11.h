@@ -8,7 +8,6 @@
 #ifndef MAIN_INC_DHT11_H_
 #define MAIN_INC_DHT11_H_
 
-#include "soc/gpio_num.h"
 #include <driver/gpio.h>
 #include <esp_err.h>
 
