@@ -5,6 +5,7 @@
 #include "freertos/task.h"
 #include "esp_log.h"
 #include "dht11.h"
+#include "i2c.helper.h"
 
 static const char *TAG = "MAIN";
 
@@ -14,6 +15,9 @@ void app_main(void)
 	
 	dht11_data_t sensor_data;
 	DHT11_Init(GPIO_NUM_4);
+	
+	I2C_Init(GPIO_NUM_22, GPIO_NUM_21);
+	ESP_LOGI(TAG, "I2C Bus Ready !!!");
 	
 	while(1)
 	{
