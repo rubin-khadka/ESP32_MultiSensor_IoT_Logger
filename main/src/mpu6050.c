@@ -24,9 +24,9 @@ esp_err_t MPU6050_Init(void)
         return ESP_FAIL;
     }   
     
-    ESP_LOGI(TAG, "Device ID: 0x%02X", who_am_i);
+    ESP_LOGI(TAG, "Device ID: 0x%dX", who_am_i);
     
-    if (who_am_i != 0x68) 
+    if (who_am_i != MPU6050_DEV_ADDR) 
     {
         ESP_LOGE(TAG, "Wrong Device ID !!!");
         return ESP_FAIL;
