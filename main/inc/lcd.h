@@ -19,4 +19,11 @@
 #define LCD_RW			0x02
 #define LCD_RS			0x01
 
+void LCD_Init(void);
+void LCD_SendCmd(uint8_t cmd);
+void LCD_SendData(uint8_t data);
+void LCD_SendString(char *str);
+void LCD_Clear(void);
+void LCD_SetCursor(uint8_t row, uint8_t col);
+
 #endif /* MAIN_INC_LCD_H_ */
