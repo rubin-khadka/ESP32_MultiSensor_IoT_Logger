@@ -151,17 +151,3 @@ float DS3231_GetTemperature(void)
 	
 	return temperature;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
