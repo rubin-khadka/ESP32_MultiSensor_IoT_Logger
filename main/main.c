@@ -8,10 +8,13 @@
 #include "portmacro.h"
 #include "sensor_data.h"
 #include "soc/gpio_num.h"
+#include "i2c.helper.h"
+#include "mpu6050.h"
 
 static const char *TAG = "MAIN";
 
 void dht11_task(void *pvParameters);
+void mpu6050_task(void *pvParameters);
 
 sensor_data_t g_sensor_data;
 
@@ -21,25 +24,22 @@ void app_main(void)
 	
 	// Create Mutex
 	g_sensor_data.mutex = xSemaphoreCreateMutex();
-	if (g_sensor_data.mutex == NULL)
-	{
-		ESP_LOGE(TAG, "Failed to create Mutex !!");
-		return;
-	}
 	ESP_LOGI(TAG, "Mutex Created !!");
 	
-	// Initialize DHT11
+	// Initialize I2C Bus
+	I2C_Init(GPIO_NUM_22, GPIO_NUM_21);
+	ESP_LOGI(TAG, "I2C Initialized !!!");
+	
+	// Initialize Sensors
+	MPU6050_Init();
 	DHT11_Init(GPIO_NUM_4);
-	ESP_LOGI(TAG, "DHT11 Initialized");
+	ESP_LOGI(TAG, "DHT11 and MPU6050 Initialized !!!");
 	
-	// Create task
-	BaseType_t result = xTaskCreate(dht11_task, "dht11_task", 4096, NULL, 2, NULL);
+	// Create tasks
+	xTaskCreate(dht11_task, "dht11_task", 4096, NULL, 2, NULL);
+	xTaskCreate(mpu6050_task, "mpu6050_task", 4096, NULL, 3, NULL);
 	
-	if(result != pdPASS)
-	{
-		ESP_LOGE(TAG, "Failed to create DHT11 task !!");
-	}
-	ESP_LOGI(TAG, "DHT11 Task created successfully !!!");
+	ESP_LOGI(TAG, "DHT11 and MPU6050 Tasks created successfully !!!");
 	ESP_LOGI(TAG, "Scheduler Running !!!");
 	
 	while(1)
@@ -49,10 +49,11 @@ void app_main(void)
 		{
 			float temp = g_sensor_data.temperature;
 			float humd = g_sensor_data.humidity;
+			float ax = g_sensor_data.accel_x;
+			float ay = g_sensor_data.accel_y;
+			float az = g_sensor_data.accel_z;
 			
 			xSemaphoreGive(g_sensor_data.mutex);
-			
-			ESP_LOGI(TAG, "Temp: %.1f°C | Hum: %.1f%% | Free heap: %lu", temp, humd, esp_get_free_heap_size());
 		}
 		
 		vTaskDelay(pdMS_TO_TICKS(5000));
