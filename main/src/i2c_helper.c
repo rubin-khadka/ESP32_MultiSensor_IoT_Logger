@@ -6,7 +6,6 @@
  */
 
 #include "driver/i2c.h"
-#include "driver/i2c_types_legacy.h"
 #include "esp_err.h"
 #include "freertos/projdefs.h"
 #include "hal/gpio_types.h"
