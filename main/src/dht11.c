@@ -141,12 +141,16 @@ esp_err_t DHT11_Process(dht11_data_t *data)
 	uint8_t temperature_dec = 0;
 	uint8_t checksum = 0;
 	
+	// Critical section
+	vTaskSuspendAll();
+	
 	// Start the sensor signal
 	DHT11_Start();
 	
 	// Check Response from the sensor
 	if (!DHT11_Check_Response()) 
 	{
+		xTaskResumeAll();
 		ESP_LOGE(TAG, "Sensor not responding !!!");
 		return ESP_ERR_TIMEOUT;
 	}
@@ -157,6 +161,9 @@ esp_err_t DHT11_Process(dht11_data_t *data)
 	temperature_int = DHT11_Read();
 	temperature_dec = DHT11_Read();
 	checksum 		= DHT11_Read();
+	
+	// Re-enable all task 
+	xTaskResumeAll();
 	
 	// Verify Checksum
 	uint16_t sum = humidity_int + humidity_dec + temperature_int + temperature_dec;

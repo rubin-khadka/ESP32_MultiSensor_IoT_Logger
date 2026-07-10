@@ -8,6 +8,8 @@
 #include "mpu6050.h"
 #include "i2c.helper.h"
 #include "esp_log.h"
+#include "freertos/FreeRTOS.h"   
+#include "freertos/task.h"       
 #include <stdint.h>
 
 static const char *TAG = "MPU6050";
@@ -24,7 +26,7 @@ esp_err_t MPU6050_Init(void)
         return ESP_FAIL;
     }   
     
-    ESP_LOGI(TAG, "Device ID: 0x%dX", who_am_i);
+    ESP_LOGI(TAG, "Device ID: 0x%02X", who_am_i);
     
     if (who_am_i != MPU6050_DEV_ADDR) 
     {
