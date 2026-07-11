@@ -10,11 +10,13 @@
 #include "soc/gpio_num.h"
 #include "i2c.helper.h"
 #include "mpu6050.h"
+#include "ds3231.h"
 
 static const char *TAG = "MAIN";
 
 void dht11_task(void *pvParameters);
 void mpu6050_task(void *pvParameters);
+void ds3231_task(void *pvParameters);
 
 sensor_data_t g_sensor_data;
 
@@ -33,27 +35,29 @@ void app_main(void)
 	// Initialize Sensors
 	MPU6050_Init();
 	DHT11_Init(GPIO_NUM_4);
-	ESP_LOGI(TAG, "DHT11 and MPU6050 Initialized !!!");
+	DS3231_Init();
+	ESP_LOGI(TAG, "Sensors Initialized !!!");
 	
 	// Create tasks
 	xTaskCreate(dht11_task, "dht11_task", 4096, NULL, 2, NULL);
 	xTaskCreate(mpu6050_task, "mpu6050_task", 4096, NULL, 3, NULL);
+	xTaskCreate(ds3231_task, "ds3231_task", 4096, NULL, 1, NULL);
 	
-	ESP_LOGI(TAG, "DHT11 and MPU6050 Tasks created successfully !!!");
-	ESP_LOGI(TAG, "Scheduler Running !!!");
+	ESP_LOGI(TAG, "All tasks created! Scheduler Running !!!");
 	
 	while(1)
 	{
 		// Read sensor data
-		if (xSemaphoreTake(g_sensor_data.mutex, pdMS_TO_TICKS(100)) == pdTRUE)
-		{
-			float temp = g_sensor_data.temperature;
-			float humd = g_sensor_data.humidity;
-			float ax = g_sensor_data.accel_x;
-			float ay = g_sensor_data.accel_y;
-			float az = g_sensor_data.accel_z;
-			
-			xSemaphoreGive(g_sensor_data.mutex);
+		if (xSemaphoreTake(g_sensor_data.mutex, pdMS_TO_TICKS(100)) == pdTRUE) {
+		    float temp = g_sensor_data.temperature;
+		    float hum = g_sensor_data.humidity;
+		    float az = g_sensor_data.accel_z;
+		    int h = g_sensor_data.hours;
+		    int m = g_sensor_data.minutes;
+		    xSemaphoreGive(g_sensor_data.mutex);
+		    
+		    ESP_LOGI(TAG, "Temp:%.1f°C | Hum:%.1f%% | AccZ:%.2f | %02d:%02d | Heap:%lu",
+		             temp, hum, az, h, m, esp_get_free_heap_size());
 		}
 		
 		vTaskDelay(pdMS_TO_TICKS(5000));

@@ -8,6 +8,8 @@ idf_component_register(
     	"src/dht11_task.c"
     	"src/i2c_helper.c"
     	"src/mpu6050_task.c"
+    	"src/ds3231.c"
+        "src/ds3231_task.c"
     INCLUDE_DIRS 
     	"."
     	"inc"
