@@ -5,17 +5,17 @@
  *      Author: Rubin Khadka
  */
  
- #include "freertos/idf_additions.h"
+#include "freertos/idf_additions.h"
 #include "freertos/projdefs.h"
 #include "portmacro.h"
 #include "sensor_data.h"
- #include "mpu6050.h"
- #include "esp_log.h"
+#include "mpu6050.h"
+#include "esp_log.h"
 
- static const char *TAG = "MPU6050_TASK";
+static const char *TAG = "MPU6050_TASK";
  
- void mpu6050_task(void *pvParameters)
- {
+void mpu6050_task(void *pvParameters)
+{
 	MPU6050_Data_t mpu_data;
 	TickType_t last_wake_time = xTaskGetTickCount();
 	
@@ -50,5 +50,5 @@
 		// Run every 50ms
 		vTaskDelayUntil(&last_wake_time, pdMS_TO_TICKS(50));
 	}
- }
+}
  

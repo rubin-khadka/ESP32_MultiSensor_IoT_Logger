@@ -10,6 +10,8 @@
 #include "i2c.helper.h"
 #include "esp_log.h"
 #include "unity_internals.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include <stdint.h>
 
 static const char *TAG = "DS3231";
