@@ -37,7 +37,7 @@ esp_err_t DS3231_Init(void)
 	uint8_t is_first_boot = 0;
 	
 	// Read Status Register
-	if (I2C_Read_Reg(DS3231_ADDR, DS3231_REG_STATUS, &status) != ESP_OK)
+	if (I2C_Read_Reg(I2C_BUS_1, DS3231_ADDR, DS3231_REG_STATUS, &status) != ESP_OK)
 	{
 		ESP_LOGE(TAG, "Failed to read DS3231 !!!");
 		return ESP_FAIL;
@@ -50,7 +50,7 @@ esp_err_t DS3231_Init(void)
 		
 		// Clear the flag 
 		status &= ~0x80;
-		I2C_Write_Reg(DS3231_ADDR, DS3231_REG_STATUS, status);
+		I2C_Write_Reg(I2C_BUS_1, DS3231_ADDR, DS3231_REG_STATUS, status);
 		ESP_LOGW(TAG, "Oscillator Stopped !!!");
 	}
 	
@@ -70,12 +70,12 @@ esp_err_t DS3231_Init(void)
 		// Write all 7 registers
 		for (int i = 0; i < 7; i++) 
 		{
-			I2C_Write_Reg(DS3231_ADDR, DS3231_REG_SECONDS + i, time_data[i]);
+			I2C_Write_Reg(I2C_BUS_1, DS3231_ADDR, DS3231_REG_SECONDS + i, time_data[i]);
 		}
 	}
 	
 	// Disable 32KHZ output
-	I2C_Write_Reg(DS3231_ADDR, DS3231_REG_CONTROL, 0x00);
+	I2C_Write_Reg(I2C_BUS_1, DS3231_ADDR, DS3231_REG_CONTROL, 0x00);
 	
 	ESP_LOGI(TAG, "DS3231 Initialized Successfully");
 	return ESP_OK;
@@ -86,7 +86,7 @@ esp_err_t DS3231_GetTime(DS3231_Time_t *time)
 	uint8_t data[7];
 	
 	// Brust read 7 bytes
-	if (I2C_Read_Brust(DS3231_ADDR, DS3231_REG_SECONDS, data, 7) != ESP_OK)
+	if (I2C_Read_Brust(I2C_BUS_1, DS3231_ADDR, DS3231_REG_SECONDS, data, 7) != ESP_OK)
 	{
 		ESP_LOGE(TAG, "Failed to read time !!!");
 		return ESP_FAIL;
@@ -124,7 +124,7 @@ esp_err_t DS3231_SetTime(DS3231_Time_t *time)
 	// Write all 7 register
 	for (int i = 0; i < 7; i++) 
 	{
-		I2C_Write_Reg(DS3231_ADDR, DS3231_REG_SECONDS + i, data[i]);
+		I2C_Write_Reg(I2C_BUS_1, DS3231_ADDR, DS3231_REG_SECONDS + i, data[i]);
 	}
 	
 	ESP_LOGI(TAG, "Time set to: %02d/%02d/20%02d %02d:%02d:%02d",
@@ -138,12 +138,12 @@ float DS3231_GetTemperature(void)
 	uint8_t temp_msb = 0;
 	uint8_t temp_lsb = 0;
 	
-	if (I2C_Read_Reg(DS3231_ADDR, DS3231_REG_TEMP_MSB, &temp_msb) != ESP_OK)
+	if (I2C_Read_Reg(I2C_BUS_1, DS3231_ADDR, DS3231_REG_TEMP_MSB, &temp_msb) != ESP_OK)
 	{
 		return 0.0f;
 	}
 	
-	if (I2C_Read_Reg(DS3231_ADDR, DS3231_REG_TEMP_MSB, &temp_msb) != ESP_OK)
+	if (I2C_Read_Reg(I2C_BUS_1, DS3231_ADDR, DS3231_REG_TEMP_MSB, &temp_msb) != ESP_OK)
 	{
 		return 0.0f;
 	}

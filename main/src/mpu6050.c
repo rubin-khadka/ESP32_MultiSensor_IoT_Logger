@@ -20,7 +20,7 @@ esp_err_t MPU6050_Init(void)
     uint8_t who_am_i = 0;
     
     // Read who_am_i register to verify chip
-    if (I2C_Read_Reg(MPU6050_DEV_ADDR, MPU6050_WHO_AM_I, &who_am_i) != ESP_OK) 
+    if (I2C_Read_Reg(I2C_BUS_0 ,MPU6050_DEV_ADDR, MPU6050_WHO_AM_I, &who_am_i) != ESP_OK) 
     {
         ESP_LOGE(TAG, "Failed to read WHO_AM_I !!!");
         return ESP_FAIL;
@@ -35,21 +35,21 @@ esp_err_t MPU6050_Init(void)
     }
     
     // Wake up MPU6050
-    if (I2C_Write_Reg(MPU6050_DEV_ADDR, MPU6050_PWR_MGMT1, 0x00) != ESP_OK)  
+    if (I2C_Write_Reg(I2C_BUS_0, MPU6050_DEV_ADDR, MPU6050_PWR_MGMT1, 0x00) != ESP_OK)  
     {
         ESP_LOGE(TAG, "Failed to wake up MPU6050 !!!");
         return ESP_FAIL;
     }
     
     // Configure Accelerometer
-    if (I2C_Write_Reg(MPU6050_DEV_ADDR, MPU6050_ACCEL_CONFIG, 0x00) != ESP_OK) 
+    if (I2C_Write_Reg(I2C_BUS_0, MPU6050_DEV_ADDR, MPU6050_ACCEL_CONFIG, 0x00) != ESP_OK) 
     {
         ESP_LOGE(TAG, "Failed to configure Accelerometer !!!");
         return ESP_FAIL;
     }
     
     // Configure Gyroscope
-    if (I2C_Write_Reg(MPU6050_DEV_ADDR, MPU6050_GYRO_CONFIG, 0x00) != ESP_OK)
+    if (I2C_Write_Reg(I2C_BUS_0, MPU6050_DEV_ADDR, MPU6050_GYRO_CONFIG, 0x00) != ESP_OK)
     {
         ESP_LOGE(TAG, "Failed to configure Gyroscope !!!");
         return ESP_FAIL;
@@ -64,7 +64,7 @@ esp_err_t MPU6050_Read(MPU6050_Data_t *data)
     uint8_t raw_data[14];
     
     // Burst read 14 byte starting from accel_x
-    if (I2C_Read_Brust(MPU6050_DEV_ADDR, MPU6050_ACCEL_XOUT, raw_data, 14) != ESP_OK) 
+    if (I2C_Read_Brust(I2C_BUS_0, MPU6050_DEV_ADDR, MPU6050_ACCEL_XOUT, raw_data, 14) != ESP_OK) 
     {
         ESP_LOGE(TAG, "Failed to read sensor data !!!");
         return ESP_FAIL;

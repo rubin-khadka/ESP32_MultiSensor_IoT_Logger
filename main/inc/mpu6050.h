@@ -10,7 +10,7 @@
 
 #include "esp_err.h"
 
-#define MPU6050_DEV_ADDR		0x69
+#define MPU6050_DEV_ADDR		0x68
 
 #define MPU6050_WHO_AM_I		0x75
 #define MPU6050_PWR_MGMT1		0x6B

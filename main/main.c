@@ -29,7 +29,8 @@ void app_main(void)
 	ESP_LOGI(TAG, "Mutex Created !!");
 	
 	// Initialize I2C Bus
-	I2C_Init(GPIO_NUM_22, GPIO_NUM_21);
+	I2C_Bus_Init(I2C_BUS_0, GPIO_NUM_22, GPIO_NUM_21);  // MPU6050 + LCD
+	I2C_Bus_Init(I2C_BUS_1, GPIO_NUM_19, GPIO_NUM_18);  // DS3231
 	ESP_LOGI(TAG, "I2C Initialized !!!");
 	
 	// Initialize Sensors
