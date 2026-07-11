@@ -28,11 +28,11 @@ static void LCD_SendNibble(uint8_t nibble, uint8_t rs)
 	}
 	
 	// Enable High
-	I2C_Write_Reg(LCD_ADDR, data | LCD_ENABLE, 0x00);		// Dummy Write
+	I2C_Write_Reg(I2C_BUS_0, LCD_ADDR, data | LCD_ENABLE, 0x00);		// Dummy Write
 	esp_rom_delay_us(1); 	// Small delay
 	
 	// Enable Low
-	I2C_Write_Reg(LCD_ADDR, data & ~LCD_ENABLE, 0x00);
+	I2C_Write_Reg(I2C_BUS_0, LCD_ADDR, data & ~LCD_ENABLE, 0x00);
 	esp_rom_delay_us(50);
 }
  
