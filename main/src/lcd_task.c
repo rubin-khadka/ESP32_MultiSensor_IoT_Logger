@@ -25,7 +25,7 @@ void lcd_task(void *pvParameters)
 		if (xSemaphoreTake(g_sensor_data.mutex, pdMS_TO_TICKS(50)) == pdTRUE) {
 
 			switch (display_mode) {
-			case 0:
+			case 0: // Temperature and Humidity
 				LCD_SetCursor(0, 0);
 				char buf[17];
 				sprintf(buf, "TEMP: %.1f C", g_sensor_data.temperature);
@@ -35,7 +35,7 @@ void lcd_task(void *pvParameters)
 				LCD_SendString(buf);
 				break;
 
-			case 1:
+			case 1: // Accelerometer
 				LCD_SetCursor(0, 0);
 				char buf2[17];
 				sprintf(buf2, "AX:%.2f AY:%.2f", g_sensor_data.accel_x,
@@ -46,7 +46,7 @@ void lcd_task(void *pvParameters)
 				LCD_SendString(buf2);
 				break;
 
-			case 2:
+			case 2:	// Gyroscope
 				LCD_SetCursor(0, 0);
 				char buf3[17];
 				sprintf(buf3, "GX:%.1f GY:%.1f", g_sensor_data.gyro_x,
@@ -56,17 +56,31 @@ void lcd_task(void *pvParameters)
 				sprintf(buf3, "GZ:%.1f [dps]", g_sensor_data.gyro_z);
 				LCD_SendString(buf3);
 				break;
-
-			case 3:
+	
+			case 3:	// Real time clock
 				LCD_SetCursor(0, 0);
 				char buf4[17];
 				sprintf(buf4, "%02d/%02d/20%02d", g_sensor_data.day,
 						g_sensor_data.month, g_sensor_data.year);
 				LCD_SendString(buf4);
+				LCD_SendString(" ");
+				LCD_SendString(" ");
+				LCD_SendString(" ");
+				LCD_SendString(" ");
+				LCD_SendString(" ");
+				LCD_SendString(" ");
 				LCD_SetCursor(1, 0);
 				sprintf(buf4, "%02d:%02d:%02d", g_sensor_data.hours,
 						g_sensor_data.minutes, g_sensor_data.seconds);
 				LCD_SendString(buf4);
+				LCD_SendString(" ");
+				LCD_SendString(" ");
+				LCD_SendString(" ");
+				LCD_SendString(" ");
+				LCD_SendString(" ");
+				LCD_SendString(" ");
+				LCD_SendString(" ");
+				LCD_SendString(" ");
 				break;
 			}
 

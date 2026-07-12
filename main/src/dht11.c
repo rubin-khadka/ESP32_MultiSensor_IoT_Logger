@@ -160,7 +160,7 @@ esp_err_t DHT11_Process(dht11_data_t *data)
 	humidity_dec 	= DHT11_Read();
 	temperature_int = DHT11_Read();
 	temperature_dec = DHT11_Read();
-	checksum 		= DHT11_Read();
+	checksum 		= DHT11_Read();	
 	
 	// Re-enable all task 
 	xTaskResumeAll();

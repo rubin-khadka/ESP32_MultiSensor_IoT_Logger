@@ -12,6 +12,7 @@
 #include "i2c.helper.h"
 #include "mpu6050.h"
 #include "ds3231.h"
+#include "button.h"
 
 static const char *TAG = "MAIN";
 
@@ -41,6 +42,9 @@ void app_main(void)
 	DS3231_Init();
 	LCD_Init();
 	ESP_LOGI(TAG, "Sensors Initialized !!!");
+	
+	Button_Init();
+	ESP_LOGI(TAG, "Button Initialized");
 	
 	// Create tasks
 	xTaskCreate(dht11_task, "dht11_task", 4096, NULL, 2, NULL);

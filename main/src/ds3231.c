@@ -61,11 +61,11 @@ esp_err_t DS3231_Init(void)
 		uint8_t time_data[7];
 		time_data[0] = DS3231_DecToBcd(0);		// Seconds
 		time_data[1] = DS3231_DecToBcd(39);	// Minutes
-		time_data[2] = DS3231_DecToBcd(0);		// Hours
-		time_data[3] = DS3231_DecToBcd(0);		// Day of Week
-		time_data[4] = DS3231_DecToBcd(0);		// Day of Month
-		time_data[5] = DS3231_DecToBcd(0);		// Month
-		time_data[6] = DS3231_DecToBcd(0);		// Year
+		time_data[2] = DS3231_DecToBcd(6);		// Hours
+		time_data[3] = DS3231_DecToBcd(7);		// Day of Week
+		time_data[4] = DS3231_DecToBcd(12);	// Day of Month
+		time_data[5] = DS3231_DecToBcd(7);		// Month
+		time_data[6] = DS3231_DecToBcd(26);	// Year
 		
 		// Write all 7 registers
 		for (int i = 0; i < 7; i++) 
