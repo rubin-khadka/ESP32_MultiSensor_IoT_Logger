@@ -18,22 +18,15 @@ static const char *TAG = "LCD";
 // Send nibble
 static void LCD_SendNibble(uint8_t nibble, uint8_t rs)
 {
-	uint8_t data;
-	
-	data = nibble | LCD_BACKLIGHT;	// Backlight always on
-	
-	if (rs)
-	{
-		data |= LCD_RS;		// RS = 1 for data
-	}
-	
-	// Enable High
-	I2C_Write_Reg(I2C_BUS_0, LCD_ADDR, data | LCD_ENABLE, 0x00);		// Dummy Write
-	esp_rom_delay_us(1); 	// Small delay
-	
-	// Enable Low
-	I2C_Write_Reg(I2C_BUS_0, LCD_ADDR, data & ~LCD_ENABLE, 0x00);
-	esp_rom_delay_us(50);
+    uint8_t data = nibble | LCD_BACKLIGHT;
+    if (rs) data |= LCD_RS;
+    
+    // Use I2C_BUS_0 or I2C_BUS_1 depending on which bus your LCD is on
+    I2C_Write_Byte(I2C_BUS_0, LCD_ADDR, data | LCD_ENABLE);
+    esp_rom_delay_us(10);
+    
+    I2C_Write_Byte(I2C_BUS_0, LCD_ADDR, data & ~LCD_ENABLE);
+    esp_rom_delay_us(50);
 }
  
 // Send Command
