@@ -174,8 +174,14 @@ esp_err_t DHT11_Process(dht11_data_t *data)
 	}
 	
 	// Fill data
-	data->humidity = (float)humidity_int;
-	data->temperature = (float)temperature_int;
+	data->humidity = (float)humidity_int + ((float)humidity_dec / 10.0f);
+	
+	if (temperature_int & 0x80) {
+		temperature_int &= 0x7F;
+		data->temperature = -((float)temperature_int + ((float)temperature_dec / 10.0f));
+	} else {
+		data->temperature = (float)temperature_int + ((float)temperature_dec / 10.0f);
+	}
 	
 	ESP_LOGI(TAG, "Temp: %.1f C, Hum: %.1f %%", data->temperature, data->humidity);
 	
