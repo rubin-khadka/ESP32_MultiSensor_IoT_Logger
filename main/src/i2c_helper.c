@@ -88,3 +88,15 @@ esp_err_t I2C_Read_Brust(i2c_port_t bus, uint8_t dev_addr, uint8_t reg_addr, uin
     return ret;
 }
 
+esp_err_t I2C_Write_Byte(i2c_port_t bus, uint8_t dev_addr, uint8_t data)
+{
+    i2c_cmd_handle_t cmd = i2c_cmd_link_create();
+    i2c_master_start(cmd);
+    i2c_master_write_byte(cmd, (dev_addr << 1) | I2C_MASTER_WRITE, true);
+    i2c_master_write_byte(cmd, data, true);
+    i2c_master_stop(cmd);
+    
+    esp_err_t ret = i2c_master_cmd_begin(bus, cmd, pdMS_TO_TICKS(100));
+    i2c_cmd_link_delete(cmd);
+    return ret;
+}

@@ -23,5 +23,6 @@ esp_err_t I2C_Bus_Init(i2c_port_t bus_num, int scl_pin, int sda_pin);
 esp_err_t I2C_Read_Reg(i2c_port_t bus, uint8_t dev_addr, uint8_t reg_addr, uint8_t *data);
 esp_err_t I2C_Write_Reg(i2c_port_t bus, uint8_t dev_addr, uint8_t reg_addr, uint8_t data);
 esp_err_t I2C_Read_Brust(i2c_port_t bus, uint8_t dev_addr, uint8_t reg_addr, uint8_t *data, size_t len);
+esp_err_t I2C_Write_Byte(i2c_port_t bus, uint8_t dev_addr, uint8_t data);
 
 #endif /* MAIN_INC_I2C_HELPER_H_ */
