@@ -11,6 +11,7 @@ idf_component_register(
         "src/ds3231_task.c"
         "src/lcd.c"
         "src/lcd_task.c"
+        "src/button.c"
     INCLUDE_DIRS 
     	"."
     	"inc"
