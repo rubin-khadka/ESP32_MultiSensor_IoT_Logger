@@ -49,7 +49,7 @@ esp_err_t SD_Card_Init(void)
     
     sdmmc_host_t host = SDSPI_HOST_DEFAULT();
     host.slot = SPI2_HOST;
-    host.max_freq_khz = 1000;  // Reliable communication test
+    host.max_freq_khz = 9000;  // Reliable communication test
     
     sdmmc_card_t *card;
     ret = esp_vfs_fat_sdspi_mount("/sdcard", &host, &slot_cfg, &mount_cfg, &card);
