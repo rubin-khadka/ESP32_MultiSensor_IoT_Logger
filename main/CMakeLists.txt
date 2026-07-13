@@ -12,6 +12,8 @@ idf_component_register(
         "src/lcd.c"
         "src/lcd_task.c"
         "src/button.c"
+        "src/sd_card.c"
+		"src/sd_task.c"
     INCLUDE_DIRS 
     	"."
     	"inc"

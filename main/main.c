@@ -13,6 +13,7 @@
 #include "portmacro.h"
 #include "sensor_data.h"
 #include "soc/gpio_num.h"
+#include "sd_card.h"
 
 static const char *TAG = "MAIN";
 
@@ -20,6 +21,7 @@ void dht11_task(void *pvParameters);
 void mpu6050_task(void *pvParameters);
 void ds3231_task(void *pvParameters);
 void lcd_task(void *pvParameters);
+void sd_logger_task(void *pvParameters);
 
 sensor_data_t g_sensor_data;
 
@@ -42,6 +44,7 @@ void app_main(void) {
 	LCD_Init();
 	ESP_LOGI(TAG, "Sensors Initialized !!!");
 
+	SD_Card_Init();
 	Button_Init();
 	ESP_LOGI(TAG, "Button Initialized");
 
@@ -50,6 +53,7 @@ void app_main(void) {
 	xTaskCreate(mpu6050_task, "mpu6050_task", 4096, NULL, 3, NULL);
 	xTaskCreate(ds3231_task, "ds3231_task", 4096, NULL, 1, NULL);
 	xTaskCreate(lcd_task, "lcd_task", 4096, NULL, 1, NULL);
+	xTaskCreate(sd_logger_task, "sd_logger", 8192, NULL, 1, NULL);
 	ESP_LOGI(TAG, "All tasks created! Scheduler Running !!!");
 
 	while (1) {
