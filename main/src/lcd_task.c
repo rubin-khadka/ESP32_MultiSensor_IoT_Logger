@@ -12,15 +12,13 @@
 
 static const char *TAG = "LCD_TASK";
 
-void lcd_task(void *pvParameters) 
-{
+void lcd_task(void *pvParameters) {
 	TickType_t last_wake_time = xTaskGetTickCount();
 
 	ESP_LOGI(TAG, "LCD Task started!");
 
-	while (1) 
-	{
-		uint8_t display_mode = Button_GetMode(); // Get mode from button module	
+	while (1) {
+		uint8_t display_mode = Button_GetMode(); // Get mode from button module
 
 		if (xSemaphoreTake(g_sensor_data.mutex, pdMS_TO_TICKS(50)) == pdTRUE) {
 
@@ -46,7 +44,7 @@ void lcd_task(void *pvParameters)
 				LCD_SendString(buf2);
 				break;
 
-			case 2:	// Gyroscope
+			case 2: // Gyroscope
 				LCD_SetCursor(0, 0);
 				char buf3[17];
 				sprintf(buf3, "GX:%.1f GY:%.1f", g_sensor_data.gyro_x,
@@ -56,8 +54,8 @@ void lcd_task(void *pvParameters)
 				sprintf(buf3, "GZ:%.1f [dps]", g_sensor_data.gyro_z);
 				LCD_SendString(buf3);
 				break;
-	
-			case 3:	// Real time clock
+
+			case 3: // Real time clock
 				LCD_SetCursor(0, 0);
 				char buf4[17];
 				sprintf(buf4, "%02d/%02d/20%02d", g_sensor_data.day,

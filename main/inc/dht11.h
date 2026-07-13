@@ -11,11 +11,10 @@
 #include <driver/gpio.h>
 #include <esp_err.h>
 
-typedef struct 
-{
+typedef struct {
 	float temperature;
 	float humidity;
-}dht11_data_t;
+} dht11_data_t;
 
 // Function prototypes
 void DHT11_Init(gpio_num_t gpio_num);
