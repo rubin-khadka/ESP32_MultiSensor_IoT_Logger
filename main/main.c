@@ -14,6 +14,7 @@
 #include "sensor_data.h"
 #include "soc/gpio_num.h"
 #include "sd_card.h"
+#include "wifi_manager.h"
 
 static const char *TAG = "MAIN";
 
@@ -22,6 +23,7 @@ void mpu6050_task(void *pvParameters);
 void ds3231_task(void *pvParameters);
 void lcd_task(void *pvParameters);
 void sd_logger_task(void *pvParameters);
+void wifi_task(void *pvParameters);
 
 sensor_data_t g_sensor_data;
 
@@ -49,11 +51,12 @@ void app_main(void) {
 	ESP_LOGI(TAG, "Button Initialized");
 
 	// Create tasks
-	xTaskCreate(dht11_task, "dht11_task", 4096, NULL, 2, NULL);
-	xTaskCreate(mpu6050_task, "mpu6050_task", 4096, NULL, 3, NULL);
-	xTaskCreate(ds3231_task, "ds3231_task", 4096, NULL, 1, NULL);
-	xTaskCreate(lcd_task, "lcd_task", 4096, NULL, 1, NULL);
-	xTaskCreate(sd_logger_task, "sd_logger", 8192, NULL, 1, NULL);
+	xTaskCreate(dht11_task, "dht11_task", 2048, NULL, 2, NULL);
+	xTaskCreate(mpu6050_task, "mpu6050_task", 2048, NULL, 3, NULL);
+	xTaskCreate(ds3231_task, "ds3231_task", 2048, NULL, 1, NULL);
+	xTaskCreate(lcd_task, "lcd_task", 2048, NULL, 1, NULL);
+	xTaskCreate(sd_logger_task, "sd_logger", 4096, NULL, 1, NULL);
+	xTaskCreate(wifi_task, "wifi", 8192, NULL, 2, NULL);
 	ESP_LOGI(TAG, "All tasks created! Scheduler Running !!!");
 
 	while (1) {

@@ -14,6 +14,8 @@ idf_component_register(
         "src/button.c"
         "src/sd_card.c"
 		"src/sd_task.c"
+		"src/wifi_manager.c"
+		"src/wifi_task.c"
     INCLUDE_DIRS 
     	"."
     	"inc"
